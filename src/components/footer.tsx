@@ -1,6 +1,10 @@
+"use client";
+
+import { useEffect } from "react";
 import Link from "next/link";
 import { Smartphone, Github, Linkedin, Mail, Heart, Coffee, Cat } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const quickLinks = [
   { href: "#hero", label: "Home" },
@@ -17,11 +21,35 @@ const services = [
 ];
 
 export function Footer() {
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const checkSurprise = () => {
+      const surpriseClicked = sessionStorage.getItem("surpriseClicked");
+      if (surpriseClicked) {
+        toast({
+          title: "Gotcha!",
+          description: "Curiosity killed the cat, but here you got rickrolled! gottem hehe!",
+        });
+        sessionStorage.removeItem("surpriseClicked");
+      }
+    };
+    checkSurprise();
+    document.addEventListener("visibilitychange", checkSurprise);
+
+    return () => {
+      document.removeEventListener("visibilitychange", checkSurprise);
+    };
+  }, [toast]);
+
+  const handleSurpriseClick = () => {
+    sessionStorage.setItem("surpriseClicked", "true");
+  };
+
   return (
     <footer className="border-t border-primary/20 py-12 pb-24">
       <div className="container">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
-          {/* Column 1: Bio */}
           <div className="space-y-4">
             <Link href="#hero" className="flex items-center space-x-2">
               <Smartphone className="h-8 w-8 text-primary" />
@@ -49,7 +77,6 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Quick Links */}
           <div className="space-y-4">
             <h3 className="text-lg font-bold">Quick Links</h3>
             <ul className="space-y-2">
@@ -63,7 +90,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Services */}
           <div className="space-y-4">
             <h3 className="text-lg font-bold">Services</h3>
              <ul className="space-y-2">
@@ -84,8 +110,21 @@ export function Footer() {
                 Made by hanabi and <Cat className="h-4 w-4 text-yellow-200" /> 
                 with <Heart className="h-4 w-4 text-accent" />, <Coffee className="h-4 w-4 text-yellow-200" />  and React
             </div>
+            <div className="mt-4">
+              <Link
+                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                onClick={handleSurpriseClick}
+              >
+                Surprise me! 🥳
+              </Link>
+            </div>
         </div>
       </div>
     </footer>
   );
 }
+
+

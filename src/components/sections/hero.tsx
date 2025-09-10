@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, Github, Linkedin, Mail, Mouse, Hand } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 const titles = [
   "Mobile App Developer",
@@ -19,6 +20,8 @@ const titles = [
 ];
 
 export function Hero() {
+
+  const { toast } = useToast();
   const [showMouseIcon, setShowMouseIcon] = useState(true);
   
   const [titleIndex, setTitleIndex] = useState(0);
@@ -56,6 +59,12 @@ export function Hero() {
     return () => clearInterval(interval);
   }, []);
 
+  const handleTitleClick = () => {
+    if (titles[titleIndex] === "Code Wizard 🧙‍♂️") {
+      window.alert("You have earned a virtual cookie! 🍪. DO NOT EAT A VIRTUAL COOKIE, it might taste bad....just saying hehe!");
+    }
+  };
+
   return (
     <motion.section
       id="hero"
@@ -77,7 +86,10 @@ export function Hero() {
           Hi, I'm <span className="drop-shadow-[0_0_4px_hsl(var(--primary))] bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent">Rounik Chatterjee</span>
         </motion.h1>
         
-        <h2 className="mt-2 text-2xl font-bold tracking-tighter text-cyan-400 sm:text-3xl md:text-4xl h-12">
+        <h2 
+          className="mt-2 text-2xl font-bold tracking-tighter text-cyan-400 sm:text-3xl md:text-4xl h-12 cursor-pointer"
+          onClick={handleTitleClick}
+        >
           <span>{text}</span>
           <span className="animate-pulse">|</span>
         </h2>

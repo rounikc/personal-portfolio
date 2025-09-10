@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -11,13 +12,15 @@ const titles = [
   "Mobile App Developer",
   "React Native Expert",
   "Java Developer",
+  "Python Developer",
+  "Full-Stack Developer",
   "Code Wizard 🧙‍♂️",
-  "S N E K ! 🐍"
+  "S N E K !🐍"
 ];
 
 export function Hero() {
   const [showMouseIcon, setShowMouseIcon] = useState(true);
-
+  
   const [titleIndex, setTitleIndex] = useState(0);
   const [text, setText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -33,7 +36,6 @@ export function Hero() {
       setText(updatedText);
 
       if (!isDeleting && updatedText === currentTitle) {
-        // Pause at the end of typing
         setTimeout(() => setIsDeleting(true), 2000);
       } else if (isDeleting && updatedText === "") {
         setIsDeleting(false);
@@ -45,10 +47,11 @@ export function Hero() {
     return () => clearTimeout(typingTimeout);
   }, [text, isDeleting, titleIndex]);
 
+
   useEffect(() => {
     const interval = setInterval(() => {
       setShowMouseIcon((prev) => !prev);
-    }, 5000);     // 5sec timor
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -73,14 +76,12 @@ export function Hero() {
         >
           Hi, I'm <span className="drop-shadow-[0_0_4px_hsl(var(--primary))] bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent">Rounik Chatterjee</span>
         </motion.h1>
-        <motion.h2
-          className="mt-2 text-2xl font-bold tracking-tighter text-cyan-400 sm:text-3xl md:text-4xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          React Native Developer
-        </motion.h2>
+        
+        <h2 className="mt-2 text-2xl font-bold tracking-tighter text-cyan-400 sm:text-3xl md:text-4xl h-12">
+          <span>{text}</span>
+          <span className="animate-pulse">|</span>
+        </h2>
+
         <motion.p 
           className="mt-4 max-w-2xl text-lg text-muted-foreground md:text-xl"
           initial={{ opacity: 0, y: 20 }}

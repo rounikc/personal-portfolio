@@ -5,9 +5,45 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Download, Github, Linkedin, Mail, Mouse, Hand } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const titles = [
+  "Mobile App Developer",
+  "React Native Expert",
+  "Java Developer",
+  "Code Wizard 🧙‍♂️",
+  "S N E K ! 🐍"
+];
 
 export function Hero() {
   const [showMouseIcon, setShowMouseIcon] = useState(true);
+
+  const [titleIndex, setTitleIndex] = useState(0);
+  const [text, setText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(150);
+
+  useEffect(() => {
+    const handleTyping = () => {
+      const currentTitle = titles[titleIndex];
+      const updatedText = isDeleting
+        ? currentTitle.substring(0, text.length - 1)
+        : currentTitle.substring(0, text.length + 1);
+
+      setText(updatedText);
+
+      if (!isDeleting && updatedText === currentTitle) {
+        // Pause at the end of typing
+        setTimeout(() => setIsDeleting(true), 2000);
+      } else if (isDeleting && updatedText === "") {
+        setIsDeleting(false);
+        setTitleIndex((prev) => (prev + 1) % titles.length);
+      }
+    };
+
+    const typingTimeout = setTimeout(handleTyping, isDeleting ? 75 : 150);
+    return () => clearTimeout(typingTimeout);
+  }, [text, isDeleting, titleIndex]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,7 +71,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Hi, I'm <span className="drop-shadow-[0_0_12px_hsl(var(--primary))] bg-gradient-to-r from-primary via-cyan-400 to-accent bg-clip-text text-transparent">Rounik Chatterjee</span>
+          Hi, I'm <span className="drop-shadow-[0_0_4px_hsl(var(--primary))] bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent">Rounik Chatterjee</span>
         </motion.h1>
         <motion.h2
           className="mt-2 text-2xl font-bold tracking-tighter text-cyan-400 sm:text-3xl md:text-4xl"

@@ -12,7 +12,7 @@ export function Hero() {
   useEffect(() => {
     const interval = setInterval(() => {
       setShowMouseIcon((prev) => !prev);
-    }, 5000); // Switch icon every 5 seconds
+    }, 5000);     // 5sec timor
 
     return () => clearInterval(interval);
   }, []);
@@ -35,7 +35,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Hi, I'm <span className="drop-shadow-[0_0_12px_hsl(var(--primary))] bg-gradient-to-r from-primary via-cyan-400 to-accent bg-clip-text text-transparent">Rounik</span>
+          Hi, I'm <span className="drop-shadow-[0_0_12px_hsl(var(--primary))] bg-gradient-to-r from-primary via-cyan-400 to-accent bg-clip-text text-transparent">Rounik Chatterjee</span>
         </motion.h1>
         <motion.h2
           className="mt-2 text-2xl font-bold tracking-tighter text-cyan-400 sm:text-3xl md:text-4xl"

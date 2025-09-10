@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'hanabi',
-  description: 'A cyberpunk-themed portfolio for a React and React Native developer.',
+  title: 'Rounik Chatterjee',
+  description: 'Personal portfolio of Rounik Chatterjee. Cyberpunk themed with neon green, hot pink and light blue theme',
 };
 
 export default function RootLayout({

@@ -112,7 +112,7 @@ export function Footer() {
             </div>
             <div className="mt-4">
               <Link
-                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                href="https://youtu.be/PXqcHi2fkXI?si=8zRn949pQnw0Qnd0"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"

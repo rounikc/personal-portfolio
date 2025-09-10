@@ -29,7 +29,7 @@ export function Footer() {
       if (surpriseClicked) {
         toast({
           title: "Gotcha!",
-          description: "Curiosity killed the cat, but here you got rickrolled! gottem hehe!",
+          description: "Curiosity killed the cat, but here you got trolled! atleast it's not a rickroll hehe!",
         });
         sessionStorage.removeItem("surpriseClicked");
       }

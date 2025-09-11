@@ -6,17 +6,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { 
-  Smartphone, 
-  Orbit, 
-  Database, 
-  Server, 
-  TerminalSquare, 
-  Coffee, 
-  Code,
-  Component,
-  Rocket
-} from 'lucide-react';
+import { Smartphone, Orbit, Database, Server, TerminalSquare, Coffee, Code, Component, Rocket } from 'lucide-react';
 
 const TypeScriptIcon = () => (
   <img 

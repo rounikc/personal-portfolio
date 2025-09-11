@@ -56,7 +56,7 @@ export function FloatingNav() {
 
   return (
     <>
-      {/* Desktop Navigation */}
+      {/*Desktop*/}
       <nav className="fixed bottom-4 left-1/2 z-50 hidden -translate-x-1/2 md:block">
         <div className="flex items-center gap-2 rounded-full p-2 shadow-lg bg-gradient-to-r from-primary/10 to-accent/10 backdrop-blur-md border border-primary/20">
           {navLinks.map((link) => (
@@ -78,7 +78,7 @@ export function FloatingNav() {
         </div>
       </nav>
 
-      {/* Mobile Navigation */}
+      {/*Mobile*/}
       <div className="fixed bottom-6 right-6 z-50 md:hidden">
         <div className="relative">
           {isMenuOpen && (

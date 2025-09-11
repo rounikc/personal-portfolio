@@ -79,7 +79,7 @@ export function FloatingNav() {
       </nav>
 
       {/* Mobile Navigation */}
-      <div className="fixed bottom-4 right-4 z-50 md:hidden">
+      <div className="fixed bottom-6 right-6 z-50 md:hidden">
         <div className="relative">
           {isMenuOpen && (
             <div className="absolute bottom-14 right-0 flex flex-col items-end gap-2 rounded-xl p-2 shadow-lg bg-gradient-to-r from-primary/10 to-accent/10 backdrop-blur-md border border-primary/20">

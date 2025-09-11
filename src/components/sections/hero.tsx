@@ -5,9 +5,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Download, Github, Linkedin, Mail, Mouse, Hand } from "lucide-react";
+import { Download, Github, Linkedin, Mail, Mouse, Hand, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const titles = [
   "Mobile App Developer",
@@ -108,12 +109,29 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
         >
-          <Button asChild size="lg" className="bg-gradient-to-r from-primary via-cyan-400 to-accent text-primary-foreground">
-            <Link href="/resume.pdf" download>
-              <Download className="mr-2 h-5 w-5" />
-              Download Resume
-            </Link>
-          </Button>
+           <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="lg" className="bg-gradient-to-r from-primary via-cyan-400 to-accent text-primary-foreground">
+                <Download className="mr-2 h-5 w-5" />
+                Resume
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <Link href="/resume.pdf" download className="flex items-center w-full cursor-pointer">
+                  <Download className="mr-2 h-5 w-5" />
+                  <span>Download Resume</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center w-full cursor-pointer">
+                  <Eye className="mr-2 h-5 w-5" />
+                  <span>View Resume</span>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <div className="flex gap-4">
             <Button asChild variant="outline" size="icon" className="rounded-full border-primary/50 hover:border-primary">
               <Link href="https://github.com/rounikc" target="_blank" aria-label="GitHub">

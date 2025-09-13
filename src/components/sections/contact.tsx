@@ -1,12 +1,20 @@
 "use client";
 
+import { useState } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Github, Mail, Linkedin, Twitter, Instagram, Bot } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { handleContactForm } from "@/actions/contact";
+import { LoadingSpinner } from "@/components/loading-spinner";
 
 const contactInfo = [
   {
@@ -25,7 +33,7 @@ const contactInfo = [
     icon: Linkedin,
     title: "LinkedIn",
     detail: "@rounikchatterjee04",
-    href: "#",
+    href: "https://linkedin.com/in/rounikchatterjee04",
   },
   {
     icon: Twitter,
@@ -47,7 +55,48 @@ const contactInfo = [
   },
 ];
 
+const contactFormSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters."),
+  email: z.string().email("Please enter a valid email address."),
+  subject: z.string().min(5, "Subject must be at least 5 characters."),
+  message: z.string().min(10, "Message must be at least 10 characters."),
+});
+
+type ContactFormValues = z.infer<typeof contactFormSchema>;
+
 export function Contact() {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+  });
+
+  const onSubmit: SubmitHandler<ContactFormValues> = async (data) => {
+    setIsSubmitting(true);
+    try {
+      const result = await handleContactForm(data);
+      toast({
+        title: "Message Sent!",
+        description: result.reply,
+      });
+      reset();
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <motion.section
       id="contact"
@@ -76,7 +125,7 @@ export function Contact() {
             </p>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1">
               {contactInfo.map((item) => (
-                <Link key={item.title} href={item.href}>
+                <Link key={item.title} href={item.href} target={item.href.startsWith("http") ? "_blank" : "_self"}>
                   <Card className="group flex h-full cursor-pointer items-center gap-4 p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/20 border-primary/40 shadow-[0_0_10px_hsl(var(--primary)/0.3)]">
                     <div className="rounded-lg bg-primary/10 p-3">
                       <item.icon className="h-6 w-6 text-primary transition-transform duration-300 group-hover:scale-110" />
@@ -96,26 +145,33 @@ export function Contact() {
                 <CardTitle className="text-accent drop-shadow-[0_0_8px_hsl(var(--accent))] text-2xl">Send a Message</CardTitle>
             </CardHeader>
             <CardContent>
-                <form className="grid gap-4">
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
-                        <label htmlFor="name" className="mb-2 block text-sm font-medium">Name</label>
-                        <Input id="name" type="text" placeholder="Your name" />
-                    </div>
-                    <div>
-                        <label htmlFor="email" className="mb-2 block text-sm font-medium">Email</label>
-                        <Input id="email" type="email" placeholder="your@email.com" />
-                    </div>
-                </div>
-                 <div>
-                    <label htmlFor="subject" className="mb-2 block text-sm font-medium">Subject</label>
-                    <Input id="subject" type="text" placeholder="Project discussion" />
-                </div>
-                <div>
-                    <label htmlFor="message" className="mb-2 block text-sm font-medium">Message</label>
-                    <Textarea id="message" placeholder="Tell me about your project..." className="min-h-[120px]" />
-                </div>
-                <Button type="submit" size="lg" className="bg-gradient-to-r from-primary via-cyan-400 to-accent">Send Message</Button>
+                <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <div>
+                          <label htmlFor="name" className="mb-2 block text-sm font-medium">Name</label>
+                          <Input id="name" type="text" placeholder="Your name" {...register("name")} disabled={isSubmitting} />
+                          {errors.name && <p className="mt-1 text-sm text-destructive">{errors.name.message}</p>}
+                      </div>
+                      <div>
+                          <label htmlFor="email" className="mb-2 block text-sm font-medium">Email</label>
+                          <Input id="email" type="email" placeholder="your@email.com" {...register("email")} disabled={isSubmitting} />
+                           {errors.email && <p className="mt-1 text-sm text-destructive">{errors.email.message}</p>}
+                      </div>
+                  </div>
+                  <div>
+                      <label htmlFor="subject" className="mb-2 block text-sm font-medium">Subject</label>
+                      <Input id="subject" type="text" placeholder="Project discussion" {...register("subject")} disabled={isSubmitting} />
+                      {errors.subject && <p className="mt-1 text-sm text-destructive">{errors.subject.message}</p>}
+                  </div>
+                  <div>
+                      <label htmlFor="message" className="mb-2 block text-sm font-medium">Message</label>
+                      <Textarea id="message" placeholder="Tell me about your project..." className="min-h-[120px]" {...register("message")} disabled={isSubmitting} />
+                      {errors.message && <p className="mt-1 text-sm text-destructive">{errors.message.message}</p>}
+                  </div>
+                  <Button type="submit" size="lg" className="bg-gradient-to-r from-primary via-cyan-400 to-accent" disabled={isSubmitting}>
+                    {isSubmitting ? <LoadingSpinner className="mr-2 h-5 w-5" /> : null}
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </Button>
                 </form>
             </CardContent>
           </Card>

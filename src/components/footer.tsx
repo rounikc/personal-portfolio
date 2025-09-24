@@ -107,7 +107,7 @@ export function Footer() {
                 © {new Date().getFullYear()} hanabi. All rights reserved.
             </p>
              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                Made by hanabi, with <Heart className="h-4 w-4 text-accent" />
+                Made by hanabi with <Heart className="h-4 w-4 text-accent" />
             </div>
             <div className="mt-4">
               <Link

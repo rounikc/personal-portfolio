@@ -2,6 +2,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { AnalyticsNotification } from '@/components/analytics-notification';
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default function RootLayout({
         <Toaster />
         <Analytics />
         <AnalyticsNotification />
+        <SpeedInsights />
       </body>
     </html>
   );

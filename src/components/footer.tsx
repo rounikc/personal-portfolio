@@ -107,8 +107,7 @@ export function Footer() {
                 © {new Date().getFullYear()} hanabi. All rights reserved.
             </p>
              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                Made by hanabi and <Cat className="h-4 w-4 text-yellow-200" /> 
-                with <Heart className="h-4 w-4 text-accent" />, <Coffee className="h-4 w-4 text-yellow-200" />  and React
+                Made by hanabi, with <Heart className="h-4 w-4 text-accent" />
             </div>
             <div className="mt-4">
               <Link
